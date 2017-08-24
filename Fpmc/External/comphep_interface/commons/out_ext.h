@@ -22,14 +22,12 @@
 * gwidth=0(fix), 1(overall), 2(running).
 *
 **********************************************************/
-#ifndef __ANOM_AAWW_OUT_EXT__
-#define __ANOM_AAWW_OUT_EXT__
+#ifndef __OUT_EXT__
+#define __OUT_EXT__
 
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
-
-namespace anom_aaww {
 
 #ifdef INTERPRET
 
@@ -66,7 +64,5 @@ extern void cStrings (int nsub, int *nC, int *power, int **chains);
 #define  FUCTION_ERROR       1
 #define  DENOMINATOR_ERROR   2
 #define  COMPHEP_ZERO        (1.E-20)
-
-} // namespace anom_aaww
 
 #endif
