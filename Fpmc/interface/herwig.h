@@ -4,6 +4,7 @@
 //-------------------------HERWIG common block -------------------------------------
 
 static const int nmxres = 500;
+//static const int nmxres = 458;
 static const int nmxsud = 1024; // max number of entries for Sudakov lookup table
 static const int nmxcdk = 4000;
 static const int nmxhep = 4000;
