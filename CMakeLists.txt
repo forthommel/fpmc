@@ -29,7 +29,7 @@ endforeach()
 #----- link everything in a single shared FPMC library (FPMC and HERWIG altogether)
 
 add_library(Fpmc SHARED $<TARGET_OBJECTS:FPMCCore> $<TARGET_OBJECTS:HerwigCore> $<TARGET_OBJECTS:CHIDe> $<TARGET_OBJECTS:KMR_lumi> $<TARGET_OBJECTS:KMR_lumi_2> $<TARGET_OBJECTS:excl_aaaa> $<TARGET_OBJECTS:softc> $<TARGET_OBJECTS:miscellaneous>)
-target_link_libraries(Fpmc comphep)
+target_link_libraries(Fpmc FpmcComphepInterface)
 set_target_properties(Fpmc PROPERTIES LINKER_LANGUAGE CXX)
 
 #----- all useful libraries

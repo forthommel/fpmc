@@ -8,7 +8,9 @@ endforeach()
 
 #----- build a big library out of all sub-processes
 
-add_library(comphep SHARED comphep_wraper.cpp
+add_library(FpmcComphepInterface SHARED comphep_wraper.cpp
                            $<TARGET_OBJECTS:sqme_aaaa>
                            $<TARGET_OBJECTS:sqme_aaww>
                            $<TARGET_OBJECTS:sqme_aazz>)
+
+install(TARGETS FpmcComphepInterface DESTINATION lib)
