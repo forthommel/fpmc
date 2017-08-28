@@ -51,6 +51,7 @@ add_executable(fpmc Examples/fpmc_bare.cc Examples/dummy_hwaend.f)
 target_link_libraries(fpmc ${LIBRARIES})
 
 add_executable(fpmc-hepmc Examples/fpmc_hepmc.cc Examples/dummy_hwaend.f)
+set_target_properties(fpmc-hepmc PROPERTIES EXCLUDE_FROM_ALL true)
 target_link_libraries(fpmc-hepmc ${LIBRARIES})
 
 #----- installation procedure
