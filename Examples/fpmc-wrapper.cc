@@ -14,7 +14,14 @@ using namespace std;
 
 int main( int argc, char* argv[] )
 {
-  fpmc::ArgsParser args( argc, argv, { "cfg", "nevents", "comenergy" }, { "fileout" } );
+  const std::vector<fpmc::ArgsParser::Parameter> req_params = {
+    { "cfg", "Path to the steering card" },
+    { "nevents", "Number of events to generate" },
+    { "comenergy", "Centre-of-mass energy (in GeV)" }
+  }, opt_params = {
+    { "fileout", "Output file name" }
+  };
+  fpmc::ArgsParser args( argc, argv, req_params, opt_params );
   const auto required_params = args.required_parameters(), optional_params = args.optional_parameters();
 
   //----------------------------
