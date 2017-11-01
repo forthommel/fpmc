@@ -4,3 +4,4 @@ set_target_properties(FpmcHerwig PROPERTIES LINKER_LANGUAGE CXX POSITION_INDEPEN
 #----- installation procedure
 
 install(TARGETS FpmcHerwig DESTINATION lib)
+

@@ -15,6 +15,8 @@ enable_language(Fortran)
 include(FindEnvironment)
 include_directories(${PROJECT_SOURCE_DIR})
 include_directories(${CLHEP_INCLUDE})
+include_directories(${HEPMC_INCLUDE})
+message(STATUS "HepMC found at " ${HEPMC_LIB})
 
 #----- build all the intermediate objects
 
@@ -33,7 +35,7 @@ set(LIBRARIES FpmcCore FpmcExternals FpmcHerwig ${GSL_LIB} ${CLHEP_LIB} ${GSL_CB
 
 if(CERNLIB_LIB)
   include_directories(Examples)
-  add_executable(fpmc-paw Examples/fpmc_main.f Examples/fpmc_lhe.f External/ntuple.f External/reco_ok/reco_ok.f External/reco_ok/pxcone_mod_new.f Examples/ffcard.f Examples/fpmc_welcome.f)
+  add_executable(fpmc-paw Examples/fpmc_main.f Examples/fpmc_lhe.f Examples/ntuple.f Examples/reco_ok/reco_ok.f Examples/reco_ok/pxcone_mod_new.f)
   target_link_libraries(fpmc-paw ${LIBRARIES} ${CERNLIB_LIB} ${CERNLIB_MATHLIB_LIB} ${CERNLIB_PAWLIB_LIB} ${CERNLIB_PACKLIB_LIB})
 endif()
 

@@ -63,14 +63,13 @@ namespace fpmc
     }
     //--- call hwudat to set up HERWIG block data
 //    hwudat();
-std::cout << "aaaaaaaaaaa" << std::endl;
 
     //--- sets the input parameters
     hwigin();
 
-    for ( unsigned int i = 0; i < 500; ++i ) {
+    /*for ( unsigned int i = 0; i < 500; ++i ) {
       std::cout << "hwprop for particle " << i << ": " << hwprop_.RLTIM[i] << "\t" << hwprop_.RMASS[i] << "\t" << hwprop_.RSPIN[i] << "\t" << hwprop_.ICHRG[i] << "\t" << hwprop_.IDPDG[i] << "\t" << hwprop_.IFLAV[i] << std::endl;
-    }
+    }*/
 //    exit(0);
 
     params_.fetchHWPRAM( hwpram_ );
@@ -124,7 +123,6 @@ std::cout << "aaaaaaaaaaa" << std::endl;
 
     //--- compute parameter dependent constants
     hwuinc();
-std::cout << "--->"  << std::endl;
 
     //--- check POMWIG Settings + Initialisations for consistency
     hwchek();
@@ -166,7 +164,6 @@ std::cout << "--->"  << std::endl;
 
     //--- call herwig routines to create HEPEVT
 
-std::cout << "aaa" << std::endl;
     hwuine(); // initialize event
 
     hwepro(); // generate hard subprocess
