@@ -85,10 +85,10 @@ namespace fpmc
         std::ostringstream oss;
         oss << "Usage: " << command_name_ << " ";
         for ( const auto& par : required_params_ ) {
-          oss << "--" <<  par.key << " <" << par.key << "> ";
+          oss << "\n\t" << "--" << par.key << " <" << par.description << ">";
         }
         for ( const auto& par : optional_params_ ) {
-          oss << "--" <<  par.key << " [" << par.key << "] ";
+          oss << "\n\t[--" << par.key << " " << par.description << "]";
         }
         oss << std::endl;
         std::cout << oss.str(); 
