@@ -105,6 +105,18 @@ namespace fpmc
       double etaMin() const { return getFloat( "yjmin" ); }
       double etaMax() const { return getFloat( "yjmax" ); }
 
+      void setMassRange( double mmin, double mmax = 0. ) {
+        add( "emmin", mmin );
+        add( "emmax", mmax );
+      }
+      double massMin() const { return getFloat( "emmin" ); }
+      double massMax() const { return getFloat( "emmax" ); }
+
+      void setExotic( bool exo = true ) {
+        add( "aaexotic", exo );
+      }
+      bool exotic() const { return getInt( "aaexotic" ); }
+
       //----- PDF fits
 
       void setPDFfits( const PDFfits& fits ) { add( "ifit", fits ); }
@@ -129,7 +141,7 @@ namespace fpmc
       void fetchCYFFLONG1( cyfflong1_t& ) const;
       void fetchCHIDEPATH( chidepath_t& ) const;
       void fetchCHIDEENV( chideenv_t& ) const;
-      
+
       void add( const std::string& key, const std::string& value ) {
         auto pair = find( key );
         if ( pair==end() ) insert( std::make_pair( key, value ) );
@@ -162,6 +174,6 @@ namespace fpmc
         return std::stod( getString( key ) );
       }
   };
-} 
+}
 
 #endif

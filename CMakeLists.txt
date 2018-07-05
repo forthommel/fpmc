@@ -80,9 +80,13 @@ target_link_libraries(fpmc-hepmc ${LIBRARIES})
 find_package(ROOT)
 if(ROOT_FOUND)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
-  add_executable(fpmc-root Examples/fpmc_root.cc Examples/dummy_hwaend.f)
   include_directories(${ROOT_INCLUDE_DIRS})
+
+  add_executable(fpmc-root Examples/fpmc_root.cc Examples/dummy_hwaend.f)
   target_link_libraries(fpmc-root ${LIBRARIES} ${ROOT_LIBRARIES})
+
+  add_executable(fpmc-scan-root Examples/fpmc_root_scan.cc Examples/dummy_hwaend.f)
+  target_link_libraries(fpmc-scan-root ${LIBRARIES} ${ROOT_LIBRARIES})
 endif()
 
 #----- installation procedure
