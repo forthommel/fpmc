@@ -38,7 +38,7 @@ namespace fpmc
 
     protected:
       void initHerwig();
- 
+
       /// HERWIG verbosity
       unsigned int herwigVerbosity_;
       /// Events to print if verbosity
@@ -54,7 +54,8 @@ namespace fpmc
       /// Enable/disable the extra printout
       bool debug_;
       std::ostream& dbg_;
+      bool welcomed_;
   };
-} 
+}
 
 #endif

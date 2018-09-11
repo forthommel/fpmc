@@ -139,6 +139,7 @@ namespace fpmc
   {
     if ( has( "modpdf1" ) ) hwpram.MODPDF[0] = getInt( "modpdf1" );
     if ( has( "modpdf2" ) ) hwpram.MODPDF[1] = getInt( "modpdf2" );
+    if ( has( "iprint" ) ) hwpram.IPRINT = getInt( "iprint" );
   }
 
   void

@@ -288,14 +288,18 @@ C-----------------------------------------------------------------------
       INCLUDE 'fpmc.inc'
       INTEGER IPR
       INTEGER PDFID, ACTID
-
+      LOGICAL first_init
+      DATA first_init/.true./
+      SAVE first_init
 c-------------------------------------------------------------------
 
 C ... Check NFLUX / TYPINT compatibility
       IPR=MOD(IPROC/100,100)
-      PRINT*, ' '
-      PRINT*, ' - - - - - - - - - FPMC - - - - - - - - - '
-      PRINT*, ' '
+      IF(first_init) THEN
+         PRINT*, ' '
+         PRINT*, ' - - - - - - - - - FPMC - - - - - - - - - '
+         PRINT*, ' '
+      ENDIF
 
       IF(TYPINT.NE.'QED') THEN
         IF(TYPINT.NE.'QCD') THEN
@@ -699,10 +703,13 @@ c ... C.B. AA->ZZ, OH induced (See S.Fichet/Gero notes)
       ENDIF
 
 C ... Print out settings
-      CALL PRINTSETTING()
-      PRINT*, ' '
-      PRINT*, ' - - - - - - - - - FPMC - - - - - - - - - '
-      PRINT*, ' '
+      IF(first_init.AND.IPRINT.NE.0) THEN
+         CALL PRINTSETTING()
+         PRINT*, ' '
+         PRINT*, ' - - - - - - - - - FPMC - - - - - - - - - '
+         PRINT*, ' '
+         first_init = .false.
+      ENDIF
       END
 C-----------------------------------------------------------------------
 

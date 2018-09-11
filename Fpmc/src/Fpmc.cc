@@ -5,21 +5,21 @@ namespace fpmc
   Fpmc::Fpmc() :
     herwigVerbosity_( 1 ), maxEventsToPrint_( 2 ),
     initialised_( false ),
-    debug_( false ), dbg_( std::cout )
+    debug_( false ), dbg_( std::cout ), welcomed_( false )
   {}
 
   Fpmc::Fpmc( const char* card ) :
     herwigVerbosity_( 1 ), maxEventsToPrint_( 2 ),
     initialised_( false ),
     params_( FpmcParameters::parseCard( card ) ),
-    debug_( false ), dbg_( std::cout )
+    debug_( false ), dbg_( std::cout ), welcomed_( false )
   {}
 
   Fpmc::Fpmc( const FpmcParameters& params ) :
     herwigVerbosity_( 1 ), maxEventsToPrint_( 2 ),
     initialised_( false ),
     params_( params ),
-    debug_( false ), dbg_( std::cout )
+    debug_( false ), dbg_( std::cout ), welcomed_( false )
   {}
 
   Fpmc::~Fpmc()
@@ -29,13 +29,16 @@ namespace fpmc
   Fpmc::initialise()
   {
     //--- print the FPMC greetings
-    fpmc_welcome();
+    if ( !welcomed_ ) {
+      fpmc_welcome();
+      welcomed_ = true;
+    }
 
-    if ( debug_ ) {
+    if ( debug_ )
       dbg_ << "UTYPEPR = " << params_.getString( "typepr" ) << std::endl
            << "UTYPINT = " << params_.getString( "typint" ) << std::endl
            << "UTMASS  = " << params_.getFloat( "tmass" ) << std::endl;
-    }
+
     //--- initialise the common blocks
     initHerwig();
 
@@ -46,7 +49,8 @@ namespace fpmc
   void
   Fpmc::initHerwig()
   {
-    if ( initialised_ ) dbg_ << "WARNING: Herwig already initialised for this run!" << std::endl;
+    if ( initialised_ )
+      dbg_ << "WARNING: Herwig already initialised for this run!" << std::endl;
 
     dbg_ << "Initializing HERWIG/FPMC" << std::endl;
 
@@ -80,11 +84,11 @@ namespace fpmc
     //--- use random seeds from datacard
     long seed0 = ( params_.has( "nrn1" ) ) ? params_.getLong( "nrn1" ) : -1L;
     long seed1 = ( params_.has( "nrn2" ) ) ? params_.getLong( "nrn2" ) : -1L;
-    if ( seed0<0 || seed1<0 ) {
+    if ( seed0 < 0 || seed1 < 0 ) {
       auto randomEngine = std::make_shared<CLHEP::HepJamesRandom>();
 
-      if ( seed0<0 ) seed0 = CLHEP::RandFlat::shoot( randomEngine.get(), 1L, 10000L );
-      if ( seed1<0 ) seed1 = CLHEP::RandFlat::shoot( randomEngine.get(), 1L, 10000L );
+      if ( seed0 < 0 ) seed0 = CLHEP::RandFlat::shoot( randomEngine.get(), 1L, 10000L );
+      if ( seed1 < 0 ) seed1 = CLHEP::RandFlat::shoot( randomEngine.get(), 1L, 10000L );
 
       if ( debug_ ) dbg_ << "SEEDS: " << seed0 << ", " << seed1 << std::endl;
     }
@@ -135,7 +139,7 @@ namespace fpmc
     int ipdg = 111;
     hwuidt( &iopt, &ipdg, &iwig, nwig );
     if ( ipdg ) hwusta(nwig, 1);
- 
+
     //--- initialize elementary process
     hweini();
 
@@ -160,7 +164,8 @@ namespace fpmc
   bool
   Fpmc::next()
   {
-    if ( !initialised_ ) initialise();
+    if ( !initialised_ )
+      initialise();
 
     //--- call herwig routines to create HEPEVT
 
@@ -177,7 +182,7 @@ namespace fpmc
 
       hwdhad();	// unstable particle decays
       hwdhvy();	// heavy flavour decays
-      hwmevt();	// soft underlying event		
+      hwmevt();	// soft underlying event
     }
 
     hwufne(); // finalize event
