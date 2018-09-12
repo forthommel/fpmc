@@ -39,7 +39,7 @@ int main( int argc, char* argv[] )
   g_scan_loglog.SetTitle( ";log_{10}(m_{a}/GeV);log_{10}(f_{0}^{-1}/GeV^{-1});#sigma(m_{a},f_{0}^{-1})" );
 
   const double min_mass = 250., max_mass = 2000.; // in GeV
-  const double min_finv = 1.e0, max_finv = 1.e-3; // in 1/GeV
+  const double min_finv = 1.e-2, max_finv = 1.e-5; // in 1/GeV
   const double min_lmass = log10( min_mass ), max_lmass = log10( max_mass ), min_lfinv = log10( min_finv ), max_lfinv = log10( max_finv );
   const unsigned short num_mass = 25, num_finv = 25;
   for ( unsigned short i = 0; i < num_mass; ++i ) {
