@@ -4,20 +4,20 @@ namespace fpmc
 {
   Fpmc::Fpmc() :
     herwigVerbosity_( 1 ), maxEventsToPrint_( 2 ),
-    initialised_( false ),
+    initialised_( false ), event_( 0 ),
     debug_( false ), dbg_( std::cout )
   {}
 
   Fpmc::Fpmc( const char* card ) :
     herwigVerbosity_( 1 ), maxEventsToPrint_( 2 ),
-    initialised_( false ),
+    initialised_( false ), event_( 0 ),
     params_( FpmcParameters::parseCard( card ) ),
     debug_( false ), dbg_( std::cout )
   {}
 
   Fpmc::Fpmc( const FpmcParameters& params ) :
     herwigVerbosity_( 1 ), maxEventsToPrint_( 2 ),
-    initialised_( false ),
+    initialised_( false ), event_( 0 ),
     params_( params ),
     debug_( false ), dbg_( std::cout )
   {}
@@ -135,7 +135,7 @@ namespace fpmc
     int ipdg = 111;
     hwuidt( &iopt, &ipdg, &iwig, nwig );
     if ( ipdg ) hwusta(nwig, 1);
- 
+
     //--- initialize elementary process
     hweini();
 
@@ -177,7 +177,7 @@ namespace fpmc
 
       hwdhad();	// unstable particle decays
       hwdhvy();	// heavy flavour decays
-      hwmevt();	// soft underlying event		
+      hwmevt();	// soft underlying event
     }
 
     hwufne(); // finalize event

@@ -51,7 +51,7 @@ set_target_properties(Fpmc PROPERTIES LINKER_LANGUAGE CXX)
 
 #----- all useful libraries
 
-set(LIBRARIES Fpmc ${GSL_LIB} ${GSL_CBLAS_LIB} ${LHAPDF_LIB} ${CLHEP_LIB} ${HEPMC_LIB} ${HEPMC_FIO_LIB})
+set(LIBRARIES Fpmc ${GSL_LIB} ${GSL_CBLAS_LIB} ${LHAPDF_LIB} ${CLHEP_LIB} ${HEPMC_LIB})
 
 #----- test executable
 

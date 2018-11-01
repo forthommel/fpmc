@@ -7,41 +7,25 @@
  *
  ***************************************/
 
-#include "HepMC/GenEvent.h"
-#include "HepMC/HEPEVT_Wrapper.h"
+#include "Fpmc/Fpmc.h"
 #include "HepMC/Version.h"
 
 #ifndef HEPMC_VERSION_CODE // HepMC v2
 #define HEPMC_VERSION2
-
 #include "HepMC/IO_HERWIG.h"
-#include "HepMC/PdfInfo.h"
-
-#else // HepMC v>=3
-
-#include "HepMC/WriterAscii.h"
-#include "HepMC/GenPdfInfo.h"
-
 #endif
 
-#include "Fpmc.h"
-#include "FpmcParameters.h"
-
-#include <string>
-#include <sstream>
-#include <stdexcept>
-#include <iostream>
-
+namespace HepMC { class GenEvent; }
 namespace fpmc
 {
   class HepMCWrapper : public Fpmc
   {
     public:
-      HepMCWrapper( double, const char* );
+      HepMCWrapper( const char* );
       ~HepMCWrapper();
 
       /// Retrieve the last event generated
-      const HepMC::GenEvent* event();
+      const HepMC::GenEvent& event();
       /// Write the last event generated onto a file
       void write( const char* );
 
@@ -50,11 +34,11 @@ namespace fpmc
       HepMC::IO_HERWIG conv_;
 #endif
       /// Last event generated
-      std::shared_ptr<HepMC::GenEvent> hepMCEvt_;
- 
+      std::unique_ptr<HepMC::GenEvent> hepMCEvt_;
+
       /// HepMC verbosity
       bool hepMCVerbosity_;
   };
-} 
+}
 
 #endif
