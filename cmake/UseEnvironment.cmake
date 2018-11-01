@@ -10,6 +10,7 @@ if($ENV{HOSTNAME} MATCHES "^lxplus[0-9]+.cern.ch")
   set(CLHEP_DIR "${BASE_DIR}/clhep/2.2.0.4/x86_64-slc6-gcc48-opt")
   set(HEPMC_DIR "${BASE_DIR}/HepMC/2.06.08/x86_64-slc6-gcc48-opt")
   set(LHAPDF_DIR "${BASE_DIR}/MCGenerators/lhapdf/5.8.9/x86_64-slc6-gcc46-opt")
+  set(PYTHIA8_DIR "${BASE_DIR}/MCGenerators_lcgcmt67c/pythia8/230/x86_64-slc6-gcc48-opt")
 
   message(STATUS "Compiling on LXPLUS. Do not forget to source the environment variables!")
   message(STATUS "    e.g. `source /cvmfs/sft.cern.ch/lcg/external/gcc/6.1.0/x86_64-slc6/setup.sh`")
@@ -46,4 +47,8 @@ else()
   find_library(HEPMC_FIO_LIB HepMCfio)
   find_path(HEPMC_INCLUDE HepMC)
 endif()
+#--- searching for Pythia 8
+set(PYTHIA8_DIRS $ENV{PYTHIA8_DIR} ${PYTHIA8_DIR} /usr /usr/local /opt/pythia8)
+find_library(PYTHIA8 pythia8 HINTS ${PYTHIA8_DIRS} PATH_SUFFIXES lib)
+find_path(PYTHIA8_INCLUDE Pythia8 HINTS ${PYTHIA8_DIRS} PATH_SUFFIXES include include/Pythia8 include/pythia8)
 

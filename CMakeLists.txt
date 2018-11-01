@@ -77,6 +77,11 @@ target_link_libraries(fpmc ${LIBRARIES})
 add_executable(fpmc-hepmc Examples/fpmc_hepmc.cc Examples/dummy_hwaend.f)
 target_link_libraries(fpmc-hepmc ${LIBRARIES})
 
+if(PYTHIA8)
+  add_executable(fpmc-lhef Examples/fpmc_lhef.cc Examples/dummy_hwaend.f)
+  target_link_libraries(fpmc-lhef ${LIBRARIES} ${PYTHIA8})
+endif()
+
 find_package(ROOT)
 if(ROOT_FOUND)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")

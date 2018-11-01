@@ -161,15 +161,9 @@ C
       WRITE(45,40)
 
       DO 510 I=1,NHEP
-        IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.1) IPR1=I
-        IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.2) IPR2=I
-
-        SAVEPART = .FALSE.
-        IF(ISTHEP(I).EQ.1.OR.ISTHEP(I).EQ.113.OR.ISTHEP(I).EQ.114) THEN
-          SAVEPART = .TRUE.
-        ENDIF
-
-        IF(SAVEPART) THEN
+        print *,i,idhep(i),isthep(i),jmohep(1,i),jmohep(2,i)
+        IF(ISTHEP(I).EQ.3..AND.
+     &       (JMOHEP(1,I).EQ.1..OR.JMOHEP(1,I).EQ.2)) THEN
           NUP = NUP + 1
         ENDIF
 
@@ -177,20 +171,20 @@ C
 
       WRITE(45,41)NUP,IDRPUP,EVWGT,SCALE,ALPHEM,ALFAS
       DO 511 I=1,NHEP
-        IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.1) IPR1=I
-        IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.2) IPR2=I
+c        IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.1) IPR1=I
+c        IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.2) IPR2=I
 
-        SAVEPART = .FALSE.
-        IF(ISTHEP(I).EQ.1.OR.ISTHEP(I).EQ.113.OR.ISTHEP(I).EQ.114) THEN
-          SAVEPART = .TRUE.
-          ISTHEP(I) = 1
-        ENDIF
+c        SAVEPART = .FALSE.
+c        IF(ISTHEP(I).EQ.1.OR.ISTHEP(I).EQ.113.OR.ISTHEP(I).EQ.114) THEN
+c          SAVEPART = .TRUE.
+c          ISTHEP(I) = 1
+c        ENDIF
 
-        IF(SAVEPART) THEN
+c        IF(SAVEPART) THEN
           WRITE(45,190) IDHEP(I),ISTHEP(I),
      &      0,0,ICOL1,ICOL2,
      &      (PHEP(J,I),J=1,5),VTIM,ASPI
-        ENDIF
+c        ENDIF
 
   511 CONTINUE
 
