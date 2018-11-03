@@ -64,10 +64,6 @@ int main( int argc, char* argv[] )
     LHEF::Writer output( outputFileName );
     for ( unsigned int evt = 0; evt < maxEvents; ++evt ) {
       const auto& ev = generator.event();
-      cout << ev.particles().size() << endl;
-      for ( const auto& parts : ev.particles() ) {
-        cout << parts->pid() << endl;
-      }
     }
 #endif
   }

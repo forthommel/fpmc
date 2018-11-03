@@ -1,5 +1,5 @@
 c ------------------------------------------------------------------------------------------
-c SHW.INC - include file for SHW package 
+c SHW.INC - include file for SHW package
 c
 c           Version 2.2
 c ------------------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ c STDHEP common blocks (see L. Garren, STDHEP 3.04, PM0091)  -------------------
 c generated particle list
 
       integer    nmxhep
-      parameter (nmxhep=4000)
+      parameter (nmxhep=10000)
 
       integer nevhep,nhep,isthep,idhep,jmohep,jdahep
 
@@ -104,7 +104,7 @@ c SHW event header and control information
       character*80 shw_isajet_decay,shw_isajet_cards,shw_pythia_cards
 
       common /shwevt/ nevshw,            ! number of events to generate/read
-     .                nprshw,            ! number of events to print out 
+     .                nprshw,            ! number of events to print out
      .                optshw,            ! type of run: 'PYTHIA', 'ISAJET', 'FILE', ...
      .                shw_input_file,    ! input file
      .                shw_output_file,   ! output file
@@ -123,18 +123,18 @@ c SHW track list
 
       common /shwtrk/ numtrk,dumtrk,          ! number of tracks
      .                indtrk(ntrkmx),         ! index to HEPEVT particle
-     .                ptrk(3,ntrkmx),         ! track 3-vector 
+     .                ptrk(3,ntrkmx),         ! track 3-vector
      .                qtrk(ntrkmx)            ! track charge
 
 
 c SHW calorimeter tower arrays
 
       real*8 pi
-      parameter(pi=3.141592654)      
+      parameter(pi=3.141592654)
 
-      integer nphical,netacal   
-      parameter (nphical=28)    
-      parameter (netacal=80)    
+      integer nphical,netacal
+      parameter (nphical=28)
+      parameter (netacal=80)
 
       real*8 deta,dphi
       parameter(deta=0.1)
