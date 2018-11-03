@@ -1721,11 +1721,11 @@ c         CALL FLUX(F,ZGAM,QQMIN,QQMAX,IPRO,IHEP)
              CALL FLUX(FN,ZH1,QQMIN,QQMAX,IPRO,IHEP)
              GAMWT = GAMWT*F*ZGAM/(C*FN*zh1)
 c	     print *,'f fn gamwt :',f,fn,gamwt
-	 ELSEIF(IND.EQ.1) THEN
+         ELSEIF(IND.EQ.1) THEN
              CALL FLUX(F,ZGAM,QQMIN,QQMAX,IPRO,IHEP)
              GAMWT = GAMWT*F*ZGAM/C
 c	     print *,'f fn gamwt ind 1:',f,fn,gamwt
-	 ENDIF
+         ENDIF
 C CHR Yura P + gamma
       ELSEIF (NFLUX.EQ.22) THEN
          IF(IND.EQ.1) THEN
@@ -1733,11 +1733,11 @@ C CHR Yura P + gamma
              CALL FLUX(FN,ZH1,QQMIN,QQMAX,IPRO,IHEP)
              GAMWT = GAMWT*F*ZGAM/(C*FN*zh1)
 c	     print *,'f fn gamwt :',f,fn,gamwt
-	 ELSEIF(IND.EQ.2) THEN
+         ELSEIF(IND.EQ.2) THEN
              CALL FLUX(F,ZGAM,QQMIN,QQMAX,IPRO,IHEP)
              GAMWT = GAMWT*F*ZGAM/C
 c	     print *,'f fn gamwt ind 2:',f,fn,gamwt
-	 ENDIF
+         ENDIF
 C CHR ion proton-ion gamma gamma
       ELSEIF (NFLUX.EQ.23) THEN
          CALL FLUX(F,ZGAM,QQMIN,QQMAX,IPRO,IHEP)
@@ -1752,21 +1752,20 @@ C CHR ion proton-ion pomeron gamma
          CALL FLUX(F,ZGAM,QQMIN,QQMAX,IPRO,IHEP)
          CALL FLUX(FN,ZH1,QQMIN,QQMAX,IPRO,IHEP)
          GAMWT = GAMWT*F*ZGAM/(C*FN*zh1)
-	 ELSEIF(IND.EQ.2) THEN
+         ELSEIF(IND.EQ.2) THEN
          CALL FLUX(F,ZGAM,QQMIN,QQMAX,IPRO,IHEP)
          GAMWT = GAMWT*F*ZGAM/C
-	 ENDIF
+         ENDIF
 C CHR ion proton-ion pomeron gamma
       ELSEIF (NFLUX.EQ.26) THEN
          IF(IND.EQ.2) THEN
          CALL FLUX(F,ZGAM,QQMIN,QQMAX,IPRO,IHEP)
          CALL FLUX(FN,ZH1,QQMIN,QQMAX,IPRO,IHEP)
          GAMWT = GAMWT*F*ZGAM/(C*FN*zh1)
-	 ELSEIF(IND.EQ.1) THEN
+         ELSEIF(IND.EQ.1) THEN
          CALL FLUX(F,ZGAM,QQMIN,QQMAX,IPRO,IHEP)
          GAMWT = GAMWT*F*ZGAM/C
-	 ENDIF
-
+         ENDIF
 
 c         CALL FLUX(F,ZGAM,QQMIN,QQMAX,IPRO,IHEP)
 c         IF(IND.EQ.1) THEN
@@ -1987,7 +1986,7 @@ C        function envelope is 1/ebeam/z*alpha/pifac/Q2
         END DO
         ELSEIF(IND.EQ.2) THEN
          Q2=1.D-3
-	ENDIF
+        ENDIF
 
 
 C CHR  ion proton
@@ -2019,7 +2018,7 @@ C        function envelope is 1/ebeam/z*alpha/pifac/Q2
         END DO
         ELSEIF(IND.EQ.1) THEN
          Q2=1.D-3
-	ENDIF
+        ENDIF
 
 C CHR proton ion Pomeron gamma
       ELSEIF((NFLUX.EQ.25).AND.ZION.GE.10) THEN
@@ -2032,7 +2031,7 @@ C ......   H1 Pomeron
      +     (DEXP(-C*QQMIN)-DEXP(-C*QQMAX))))
        ELSEIF(IND.EQ.2) THEN
          Q2=1.D-3
-	ENDIF
+       ENDIF
 
 
 
@@ -2047,7 +2046,7 @@ C ......   H1 Pomeron
      +     (DEXP(-C*QQMIN)-DEXP(-C*QQMAX))))
        ELSEIF(IND.EQ.1) THEN
          Q2=1.D-3
-	ENDIF
+       ENDIF
 
 
       ELSEIF((NFLUX.EQ.12.AND.ZION.EQ.1)
@@ -2511,8 +2510,8 @@ C---NEXT ENTRY IS OVERALL CM FRAME
       ISTHEP(NHEP)=103
       JMOHEP(1,NHEP)=NHEP-2
       JMOHEP(2,NHEP)=NHEP-1
-      JDAHEP(1,NHEP)=0
-      JDAHEP(2,NHEP)=0
+      JDAHEP(1,NHEP)=NHEP+1
+      JDAHEP(2,NHEP)=NHEP+3
       CALL HWVSUM(4,PHEP(1,NHEP-1),PHEP(1,NHEP-2),PHEP(1,NHEP))
       CALL HWUMAS(PHEP(1,NHEP))
 C Select a primary interaction point
@@ -2923,6 +2922,7 @@ C   WARN AT 10*EFFMIN, STOP AT EFFMIN
               ENDIF
             ENDIF
           ENDIF
+c-------- check if event was accepted
           IF (NOWGT) THEN
             GENEV=ABWGT.GT.WGTMAX*HWRGEN(0)
           ELSE
@@ -3844,7 +3844,6 @@ c           IF (HWRGEN(2).GT.HALF) then
                      T=-S-T+2*EMSQ
               ENDIF
               U=-S-T+2*EMSQ
-
 
               COSTH=(2*T+S-2*EMSQ)/SQRT(S**2-4*EMSQ*S)
               EMSCA=SQRT(2.*S*T*U/(S*S+T*T+U*U))
