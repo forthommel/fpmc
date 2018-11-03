@@ -13,8 +13,6 @@
 #ifndef HEPMC_VERSION_CODE // HepMC v2
 # define HEPMC_VERSION2
 # include "HepMC/IO_HERWIG.h"
-#else
-# include "HepMC/LHEFAttributes.h"
 #endif
 
 namespace HepMC { class GenEvent; }
@@ -34,8 +32,6 @@ namespace fpmc
     private:
 #ifdef HEPMC_VERSION2
       HepMC::IO_HERWIG conv_;
-#else
-      std::unique_ptr<LHEF::Writer> lhe_writer_;
 #endif
       /// Last event generated
       std::unique_ptr<HepMC::GenEvent> hepMCEvt_;

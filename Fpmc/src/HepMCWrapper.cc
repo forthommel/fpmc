@@ -47,6 +47,7 @@ using namespace HepMC;
 #ifdef HEPMC_VERSION2
     hepMCEvt_.reset( *conv_.read_next_event() );
 #else
+    hepMCEvt_->clear();
     for ( unsigned short i = 8; i <= HepMC::HEPEVT_Wrapper::number_entries(); ++i ) {
       HepMC::HEPEVT_Wrapper::set_position( i-7,
         HepMC::HEPEVT_Wrapper::x( i ), HepMC::HEPEVT_Wrapper::y( i ), HepMC::HEPEVT_Wrapper::z( i ),
@@ -72,16 +73,15 @@ using namespace HepMC;
     HepMC::HEPEVT_Wrapper::set_children( 3, 4, HepMC::HEPEVT_Wrapper::number_entries() );
     //--- central event
     for ( unsigned short i = 4; i <= HepMC::HEPEVT_Wrapper::number_entries(); ++i )
-      HepMC::HEPEVT_Wrapper::set_parents( i, 3, 0 );
+      HepMC::HEPEVT_Wrapper::set_parents( i, 3, 3 );
 
     if ( !HepMC::HEPEVT_Wrapper::HEPEVT_to_GenEvent( hepMCEvt_.get() ) )
       throw std::runtime_error( "Failed to fetch the HEPEVT block!" );
-
     HepMC::HEPEVT_Wrapper::zero_everything();
 #endif
 
-#ifdef HEPMC_VERSION2
     hepMCEvt_->set_event_number( event_-1 );
+#ifdef HEPMC_VERSION2
     hepMCEvt_->set_signal_process_id( params_.processId() );
     hepMCEvt_->set_event_scale( -1. );
 #endif
