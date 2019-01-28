@@ -11,8 +11,8 @@
 #include "HepMC/Version.h"
 
 #ifndef HEPMC_VERSION_CODE // HepMC v2
-#define HEPMC_VERSION2
-#include "HepMC/IO_HERWIG.h"
+# define HEPMC_VERSION2
+# include "HepMC/IO_HERWIG.h"
 #endif
 
 namespace HepMC { class GenEvent; }

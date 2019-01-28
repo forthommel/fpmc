@@ -2,8 +2,6 @@
 #include "Fpmc/FpmcParameters.h"
 
 #include "HepMC/GenEvent.h"
-#define HEPMC_HEPEVT_NMXHEP 4000
-#include "HepMC/HEPEVT_Wrapper.h"
 
 #include <string>
 #include <sstream>
@@ -15,6 +13,11 @@
 #else // HepMC v>=3
 # include "HepMC/WriterAscii.h"
 # include "HepMC/GenPdfInfo.h"
+# include "HepMC/GenParticle.h"
+# include "HepMC/GenVertex.h"
+# include "HepMC/HEPEVT_Wrapper.h"
+# include <set>
+# include <map>
 extern "C" struct HEPEVT hepevt_;
 #endif
 
@@ -32,6 +35,7 @@ namespace fpmc
   HepMCWrapper::~HepMCWrapper()
   {}
 
+using namespace HepMC;
   const HepMC::GenEvent&
   HepMCWrapper::event()
   {
@@ -43,15 +47,41 @@ namespace fpmc
 #ifdef HEPMC_VERSION2
     hepMCEvt_.reset( *conv_.read_next_event() );
 #else
-    //HepMC::HEPEVT_Wrapper::zero_everything();
-    HepMC::HEPEVT_Wrapper::print_hepevt();
+    hepMCEvt_->clear();
+    for ( unsigned short i = 8; i <= HepMC::HEPEVT_Wrapper::number_entries(); ++i ) {
+      HepMC::HEPEVT_Wrapper::set_position( i-7,
+        HepMC::HEPEVT_Wrapper::x( i ), HepMC::HEPEVT_Wrapper::y( i ), HepMC::HEPEVT_Wrapper::z( i ),
+        HepMC::HEPEVT_Wrapper::t( i ) );
+      HepMC::HEPEVT_Wrapper::set_momentum( i-7,
+        HepMC::HEPEVT_Wrapper::px( i ), HepMC::HEPEVT_Wrapper::py( i ), HepMC::HEPEVT_Wrapper::pz( i ),
+        HepMC::HEPEVT_Wrapper::e( i ) );
+      HepMC::HEPEVT_Wrapper::set_mass( i-7, HepMC::HEPEVT_Wrapper::m( i ) );
+      HepMC::HEPEVT_Wrapper::set_id( i-7, HepMC::HEPEVT_Wrapper::id( i ) );
+      HepMC::HEPEVT_Wrapper::set_status( i-7, HepMC::HEPEVT_Wrapper::status( i ) );
+      HepMC::HEPEVT_Wrapper::set_parents( i-7,
+        std::max( HepMC::HEPEVT_Wrapper::first_parent( i )-7, 0 ),
+        std::max( HepMC::HEPEVT_Wrapper:: last_parent( i )-7, 0 ) );
+    }
+    HepMC::HEPEVT_Wrapper::set_number_entries( HepMC::HEPEVT_Wrapper::number_entries()-7 );
+    //--- fix parentage for incoming 'partons'
+    for ( unsigned short i = 1; i <= 2; ++i ) {
+      HepMC::HEPEVT_Wrapper::set_status( i, 3 );
+      HepMC::HEPEVT_Wrapper::set_parents( i, 0, 0 );
+      HepMC::HEPEVT_Wrapper::set_children( i, 3, 0 );
+    }
+    //--- fix parentage for two-'parton' system
+    HepMC::HEPEVT_Wrapper::set_children( 3, 4, HepMC::HEPEVT_Wrapper::number_entries() );
+    //--- central event
+    for ( unsigned short i = 4; i <= HepMC::HEPEVT_Wrapper::number_entries(); ++i )
+      HepMC::HEPEVT_Wrapper::set_parents( i, 3, 3 );
+
     if ( !HepMC::HEPEVT_Wrapper::HEPEVT_to_GenEvent( hepMCEvt_.get() ) )
       throw std::runtime_error( "Failed to fetch the HEPEVT block!" );
-    std::cout << HepMC::HEPEVT_Wrapper::number_entries() << " >> " << hepMCEvt_->vertices().size() << std::endl;
+    HepMC::HEPEVT_Wrapper::zero_everything();
 #endif
 
-#ifdef HEPMC_VERSION2
     hepMCEvt_->set_event_number( event_-1 );
+#ifdef HEPMC_VERSION2
     hepMCEvt_->set_signal_process_id( params_.processId() );
     hepMCEvt_->set_event_scale( -1. );
 #endif
@@ -69,16 +99,6 @@ namespace fpmc
     hepMCEvt_->set_pdf_info( pdf_info );
 #endif
 
-    /*HepMC::GenParticle* incomingParton = NULL;
-    HepMC::GenParticle* targetParton = NULL;
-    // find incoming parton (first entry with IST=121)
-    for(HepMC::GenEvent::particle_const_iterator it = event()->particles_begin(); (it != event()->particles_end() && incomingParton==NULL); it++)
-      if((*it)->status()==121) incomingParton = (*it);
-
-    // find target parton (first entry with IST=122)
-    for(HepMC::GenEvent::particle_const_iterator it = event()->particles_begin(); (it != event()->particles_end() && targetParton==NULL); it++)
-      if((*it)->status()==122) targetParton = (*it);*/
-
 #ifdef HEPMC_VERSION2
     //******** Verbosity ********
     if ( event_ <= maxEventsToPrint_ && hepMCVerbosity_ ) {
@@ -91,20 +111,5 @@ namespace fpmc
 
     return *hepMCEvt_;
   }
-
-  void
-  HepMCWrapper::write( const char* out )
-  {
-    if ( !hepMCEvt_.get() ) return;
-
-#ifdef HEPMC_VERSION2
-    std::ofstream output( out );
-    hepMCEvt_->write( output );
-    output.close();
-#else // HepMC v>=3
-    HepMC::WriterAscii output( out );
-    output.write_event( *hepMCEvt_ );
-    output.close();
-#endif
-  }
 }
+

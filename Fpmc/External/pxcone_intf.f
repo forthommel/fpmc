@@ -1,7 +1,7 @@
-* OK: 1/12/2006 interface to the pxcone jet algo. 
+* OK: 1/12/2006 interface to the pxcone jet algo.
 * 1) convert hep to structure of pxcone(pythia typ)
 * 2) do the clustering
-* 3) fill the appropriate structure in ntuples      
+* 3) fill the appropriate structure in ntuples
 
       SUBROUTINE CONE(IERR)
       !IERR = 0 OK
@@ -10,8 +10,8 @@
       include 'herwig6500.inc'
       integer nfoundjet
 
-      
-C ... PXCONE variables, two pxcone algorithms 
+
+C ... PXCONE variables, two pxcone algorithms
       INTEGER  ITKDM,MXTRK
       ! ... ctyrvektor, max. pocet castic v jednom eventu
       PARAMETER  (ITKDM=4,MXTRK=4000)
@@ -22,16 +22,16 @@ C ... PXCONE variables, two pxcone algorithms
       DOUBLE PRECISION  PTRAK(ITKDM,MXTRK),PJET(5,MXJET)
       DOUBLE PRECISION  CONER, EPSLON, OVLIM
 
-      
-      
-c ... particles on generator level     
+
+
+c ... particles on generator level
        integer ngenmax
        parameter(ngenmax=1000)
        integer ngen
        real px(ngenmax),py(ngenmax),pz(ngenmax)
        real e(ngenmax),rm(ngenmax)
        integer id(ngenmax)
-       
+
        common /gener/ngen,
      &     px,py,pz,e,rm,id
 
@@ -48,7 +48,7 @@ c ... jet structure (as in simul)
       integer ntrarec(nrecmax)
       real sum15ec(nrecmax),sum15hc(nrecmax), sum40(nrecmax)
       real sum40ec(nrecmax)
-      
+
       common /recons1/ nrec,
      & typrec,pxrec,pyrec,pzrec,erec,qrec,eemrec,ehadrec,
      & etrarec,widrec,var6,
@@ -64,22 +64,22 @@ c ... loop variables
 
 
 C...HEPEVT commonblock.
-c      PARAMETER (NMXHEP=4000)
+c      PARAMETER (NMXHEP=10000)
 c      COMMON/HEPEVT/NEVHEP,NHEP,ISTHEP(NMXHEP),IDHEP(NMXHEP),
 c     &JMOHEP(2,NMXHEP),JDAHEP(2,NMXHEP),PHEP(5,NMXHEP),VHEP(4,NMXHEP)
 c      DOUBLE PRECISION PHEP,VHEP
 c      SAVE /HEPEVT/
-      
-c------------------------------------------------------------------- 
 
-      
+c-------------------------------------------------------------------
+
+
 C ... PXCONE parameters ...
       MODE    = 2        !Snow mass scheme
       CONER   = 0.7
       EPSLON  = 8
       OVLIM   = 0.5d0
 
-c------------------------------------------------------------------- 
+c-------------------------------------------------------------------
 c particles on the generator level
       call vzero(px,ngenmax)
       call vzero(py,ngenmax)
@@ -87,8 +87,8 @@ c particles on the generator level
       call vzero(e,ngenmax)
       call vzero(rm,ngenmax)
       call vzero(id,ngenmax)
-        
-        
+
+
       N=NHEP
       IPART=0
       do 1515 I=1,N
@@ -104,8 +104,8 @@ c         print '(A,F8.2,I6)','rm id :',p(i,5),k(i,2)
           ENDIF
 1515  continue
       ngen=IPART
-          
-c-------------------------------------------------------------------          
+
+c-------------------------------------------------------------------
       NTRAK=0
       N=NHEP
 c     print '(A,I6)', 'NHEP', NHEP
@@ -120,18 +120,18 @@ c             IF(RAP.LT.4) THEN
                 DO 160 J=1,5
                   PTRAK(J,NTRAK)=PHEP(J,I)
  160            CONTINUE
-c             ENDIF     
-               
+c             ENDIF
+
 c          print '(A,4F8.2)','phep:',PHEP(1,i),PHEP(2,i),
 c     .                              PHEP(3,i),PHEP(4,i)
-               
-          ENDIF     
-  180 CONTINUE       
+
+          ENDIF
+  180 CONTINUE
 
 
-c-------------------------------------------------------------------           
+c-------------------------------------------------------------------
       !clustering
-      
+
       NJET=0                          !midpoint alg.
       CALL PXCONE(MODE,NTRAK,ITKDM,PTRAK,CONER,EPSLON,OVLIM,MXJET,
      +            NJET,PJET,IPASS,IJMUL,IERR)
@@ -139,7 +139,7 @@ c-------------------------------------------------------------------
       IF(IERR.NE.0) THEN
          print *, 'PXCONE did not converge'
          RETURN
-      ENDIF   
+      ENDIF
 
 
       print *,' *** cone_interface nevhep :', nevhep
@@ -176,13 +176,13 @@ c...jets common blocks
 c         print '(A, 4F8.2)', 'pjet x y z e :', PJET(1,i),PJET(2,i),
 c     .                                         PJET(3,i),PJET(4,i)
 c         print *,''
- 1550 continue         
+ 1550 continue
       nrec = njet
-      
-      
-       
+
+
+
        RETURN
        END
 
-      
+
 

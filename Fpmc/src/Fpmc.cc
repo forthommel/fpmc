@@ -1,5 +1,6 @@
 #include "Fpmc.h"
 
+extern "C" void fpmcdebugpart_();
 namespace fpmc
 {
   Fpmc::Fpmc() :
@@ -183,7 +184,7 @@ namespace fpmc
     hwufne(); // finalize event
 
     int init = 0;
-    hwfxer( &init ); // fix event record (i.e. restore correct intermediate states)
+    //hwfxer( &init ); // fix event record (i.e. restore correct intermediate states)
 
     if ( hwevnt_.IERROR ) return false;
 

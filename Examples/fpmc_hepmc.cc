@@ -7,8 +7,7 @@
 #include "HepMC/IO_GenEvent.h"
 #else
 #include "HepMC/WriterAscii.h"
-#include "HepMC/LHEF.h"
-#include "HepMC/GenParticle.h" //FIXME
+#include "HepMC/LHEFAttributes.h"
 #endif
 
 using namespace std;
@@ -62,12 +61,24 @@ int main( int argc, char* argv[] )
     throw runtime_error( "LHEF only works for HepMC v3+!" );
 #else
     LHEF::Writer output( outputFileName );
+    auto hepr = std::make_shared<HepMC::HEPRUPAttribute>();
     for ( unsigned int evt = 0; evt < maxEvents; ++evt ) {
       const auto& ev = generator.event();
-      cout << ev.particles().size() << endl;
-      for ( const auto& parts : ev.particles() ) {
-        cout << parts->pid() << endl;
+      auto hepe = std::make_shared<HepMC::HEPEUPAttribute>();
+      if ( !hepr ) {
+        hepr = ev.attribute<HepMC::HEPRUPAttribute>( "HEPRUP" );
+        for ( int i = 0, N = hepr->tags.size(); i < N; ++i )
+          if ( hepr->tags[i]->name != "init" )
+            hepr->tags[i]->print( output.headerBlock() );
+        //hepr->heprup.NPRUP = (int)input.run_info()->attribute<FloatAttribute>("NPRUP")->value();
+        // Then we write out the HEPRUP object.
+        output.heprup = hepr->heprup;
+        output.init();
       }
+      // And then we can write out the HEPEUP object.
+      output.hepeup = hepe->hepeup;
+      output.hepeup.heprup = &output.heprup;
+      output.writeEvent();
     }
 #endif
   }
