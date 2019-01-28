@@ -165,8 +165,10 @@ C
         IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.2) IPR2=I
 
         SAVEPART = .FALSE.
-        IF(ISTHEP(I).EQ.1.OR.ISTHEP(I).EQ.113.OR.ISTHEP(I).EQ.114) THEN
-          SAVEPART = .TRUE.
+        IF(ISTHEP(I).EQ.1.
+     &    .OR.ISTHEP(I).EQ.121.OR.ISTHEP(I).EQ.122
+     &    .OR.ISTHEP(I).EQ.113.OR.ISTHEP(I).EQ.114) THEN
+          IF(IDHEP(I).NE.2212) SAVEPART = .TRUE.
         ENDIF
 
         IF(SAVEPART) THEN
@@ -181,9 +183,15 @@ C
         IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.2) IPR2=I
 
         SAVEPART = .FALSE.
-        IF(ISTHEP(I).EQ.1.OR.ISTHEP(I).EQ.113.OR.ISTHEP(I).EQ.114) THEN
-          SAVEPART = .TRUE.
-          ISTHEP(I) = 1
+        IF(ISTHEP(I).EQ.1
+     &    .OR.ISTHEP(I).EQ.121.OR.ISTHEP(I).EQ.122
+     &    .OR.ISTHEP(I).EQ.113.OR.ISTHEP(I).EQ.114) THEN
+          IF(IDHEP(I).NE.2212) SAVEPART = .TRUE.
+          IF(ISTHEP(I).EQ.121.OR.ISTHEP(I).EQ.122) THEN
+            ISTHEP(I) = -2
+          ELSE
+            ISTHEP(I) = 1
+          ENDIF
         ENDIF
 
         IF(SAVEPART) THEN
