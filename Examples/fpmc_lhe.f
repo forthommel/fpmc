@@ -161,9 +161,6 @@ C
       WRITE(45,40)
 
       DO 510 I=1,NHEP
-        IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.1) IPR1=I
-        IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.2) IPR2=I
-
         SAVEPART = .FALSE.
         IF(ISTHEP(I).EQ.1.
      &    .OR.ISTHEP(I).EQ.121.OR.ISTHEP(I).EQ.122
@@ -179,24 +176,25 @@ C
 
       WRITE(45,41)NUP,IDRPUP,EVWGT,SCALE,ALPHEM,ALFAS
       DO 511 I=1,NHEP
-        IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.1) IPR1=I
-        IF(IDHEP(I).EQ.2212.AND.JMOHEP(1,I).EQ.2) IPR2=I
-
         SAVEPART = .FALSE.
+        JMOHEP(1,I) = 0
+        JMOHEP(2,I) = 0
         IF(ISTHEP(I).EQ.1
      &    .OR.ISTHEP(I).EQ.121.OR.ISTHEP(I).EQ.122
      &    .OR.ISTHEP(I).EQ.113.OR.ISTHEP(I).EQ.114) THEN
-          IF(IDHEP(I).NE.2212) SAVEPART = .TRUE.
-          IF(ISTHEP(I).EQ.121.OR.ISTHEP(I).EQ.122) THEN
-            ISTHEP(I) = -2
-          ELSE
+          IF(IDHEP(I).NE.2212) SAVEPART = .TRUE. ! skip outgoing protons
+          IF(ISTHEP(I).EQ.121.OR.ISTHEP(I).EQ.122) THEN ! incoming state
+            ISTHEP(I) = -1
+          ELSE ! central system
+            JMOHEP(1,I) = 1
+            JMOHEP(2,I) = 2
             ISTHEP(I) = 1
           ENDIF
         ENDIF
 
         IF(SAVEPART) THEN
           WRITE(45,190) IDHEP(I),ISTHEP(I),
-     &      0,0,ICOL1,ICOL2,
+     &      JMOHEP(1,I),JMOHEP(2,I),ICOL1,ICOL2,
      &      (PHEP(J,I),J=1,5),VTIM,ASPI
         ENDIF
 
